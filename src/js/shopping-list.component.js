@@ -19,6 +19,14 @@ export class ShoppingListComponent extends HTMLElement {
     }
     loadDoc() {
         var shadow = this.attachShadow({ mode: 'open' });
+        //add style like this to shadow dom
+        // shadow.innerHTML= `<style> 
+        //     ul li img{
+        //         width:100px !important;
+        //         height:100px !important;
+        //     }
+        // </style>`;
+
         fetch("src/json/list.json")
         .then((resp) => resp.json())
             .then((data) => {
