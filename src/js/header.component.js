@@ -19,12 +19,9 @@ export class HeaderComponent extends HTMLElement {
 
         var shadowRoot = this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = " <h1>Loaded Header sucessfully</h1>";
-        //this.change("update data");
     }
 
-    change(data) {
-        Controller.instance.editShoppingList([data]);
-    }
+    
 }
 
 window.customElements.define('app-header', HeaderComponent);
