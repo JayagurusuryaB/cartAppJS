@@ -33,7 +33,7 @@
     },
     {
         "id": 9094,
-        "name": "Item1",
+        "name": "Item5",
         "price": 500,
         "discount": 25,
         "category": "thriller",
@@ -41,7 +41,7 @@
     },
     {
         "id": 9095,
-        "name": "Item2",
+        "name": "Item6",
         "price": 150,
         "discount": 5,
         "category": "literature",
@@ -49,7 +49,7 @@
     },
     {
         "id": 9096,
-        "name": "Item3",
+        "name": "Item7",
         "price": 700,
         "discount": 22,
         "category": "literature",
@@ -57,7 +57,7 @@
     },
     {
         "id": 9097,
-        "name": "Item4",
+        "name": "Item8",
         "price": 350,
         "discount": 18,
         "category": "fiction",
