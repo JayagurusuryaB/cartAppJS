@@ -6,7 +6,6 @@ export class ShoppingListComponent extends HTMLElement {
         this.subscribe();
         this.shadow= this.attachShadow({mode:'open'});
         console.log("shopingList", Controller.instance.shoppingList);
-        //  console.log("shopingList",this.shopingList);
     }
     next(core) {
         console.log('Updated core emitted to shoppingListcomponent: ', core);
@@ -63,6 +62,7 @@ export class ShoppingListComponent extends HTMLElement {
             .then((resp) => resp.json())
             .then((data) => {
                 // Here you get the data to modify as you please
+                Controller.instance.setOriginalShoppingList(data);
                 Controller.instance.editShoppingList(data);
             })
 

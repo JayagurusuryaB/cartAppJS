@@ -6,6 +6,7 @@ export default class Controller {
 
     constructor() {
         this._shoppingList = [];
+        this._originalShoppingList =[];
         this._core = {
             subscribers: [],
         };
@@ -14,6 +15,13 @@ export default class Controller {
     }
     get shoppingList() {
         return this._shoppingList;
+    }
+    get originalShoppingList(){
+        return this._originalShoppingList;
+    } 
+
+    setOriginalShoppingList(data){
+        this._originalShoppingList = data;
     }
 
     editShoppingList(data) {
