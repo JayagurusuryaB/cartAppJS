@@ -4,10 +4,10 @@ export class SortComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        //this.shadow = this.createShadowRoot();
+        this.attachShadow({mode:'open'});
+
     }
     next(core) {
-        //console.log('Updated core emitted to VeryFarComponent: ', core);
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -17,7 +17,6 @@ export class SortComponent extends HTMLElement {
     }
     connectedCallback() {
 
-        var shadowRoot = this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
         <button id="priceLow">PriceLow</button>
         <button id="priceHigh">PriceHigh</button>
@@ -26,6 +25,9 @@ export class SortComponent extends HTMLElement {
         this.shadowRoot.querySelector('#priceHigh').addEventListener("click",()=>{this.sortList('priceHigh')})
         this.shadowRoot.querySelector('#discount').addEventListener("click",()=>{this.sortList('discount')})
 
+    }
+    disconnectedCallback(){
+        this.unsubscribe();
     }
 
     sortList(tag){

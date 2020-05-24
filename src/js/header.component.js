@@ -4,10 +4,10 @@ export class HeaderComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        //this.shadow = this.createShadowRoot();
+        this.attachShadow({mode:'open'});
+
     }
     next(core) {
-      //  console.log('Updated core emitted to VeryFarComponent: ', core);
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -17,10 +17,11 @@ export class HeaderComponent extends HTMLElement {
     }
     connectedCallback() {
 
-        var shadowRoot = this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = " <h1>Loaded Header sucessfully</h1>";
     }
-
+    disconnectedCallback(){
+        this.unsubscribe();
+    }
     
 }
 

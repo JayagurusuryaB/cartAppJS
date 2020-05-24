@@ -4,10 +4,9 @@ export class SearchComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        //this.shadow = this.createShadowRoot();
+        this.attachShadow({mode:'open'});
     }
     next(core) {
-        //console.log('Updated core emitted to VeryFarComponent: ', core);
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -17,7 +16,6 @@ export class SearchComponent extends HTMLElement {
     }
     connectedCallback() {
 
-        var shadowRoot = this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
         <form >
         <input id="searchData" type="text" placeholder="Search.." name="search">
@@ -25,6 +23,9 @@ export class SearchComponent extends HTMLElement {
         </form>`;
         this.shadowRoot.querySelector('#searchData').addEventListener("keyup",()=>{this.searchData()})
 
+    }
+    disconnectedCallback(){
+        this.unsubscribe();
     }
 
     searchData(){

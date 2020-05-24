@@ -8,8 +8,7 @@ export class ShoppingListComponent extends HTMLElement {
         console.log("shopingList", Controller.instance.shoppingList);
     }
     next(core) {
-        console.log('Updated core emitted to shoppingListcomponent: ', core);
-        this.replaceDOM();
+        this.createDOM();
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -24,9 +23,13 @@ export class ShoppingListComponent extends HTMLElement {
         return parent.appendChild(el);
     }
     connectedCallback() {
-        this.loadDoc();
+        this.loadData();
     }
-    replaceDOM() {
+
+    disconnectedCallback(){
+        this.unsubscribe();
+    }
+    createDOM() {
        // document.querySelector('app-shopping-list').remove();
        
         this.shadow.innerHTML = `<style> 
@@ -39,7 +42,7 @@ export class ShoppingListComponent extends HTMLElement {
             var ul = this.createNode('ul');
             ul.setAttribute("id", "shoppingList");
             this.shoppingList.forEach((item, i) => {
-                console.log("i", i);
+                // console.log("i", i);
                 let li = this.createNode('li'),
                     img = this.createNode('img'),
                     span = this.createNode('span');
@@ -54,7 +57,7 @@ export class ShoppingListComponent extends HTMLElement {
     }
 
 
-    loadDoc() {
+    loadData() {
 
         
 
