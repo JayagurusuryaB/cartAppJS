@@ -4,7 +4,7 @@ export class PriceSliderComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        this.attachShadow({mode:'open'});
+      //  this.attachShadow({mode:'open'});
     }
     next(core) {
     }
@@ -15,7 +15,7 @@ export class PriceSliderComponent extends HTMLElement {
         Controller.instance.unsubscribe(this);
     }
     connectedCallback() {
-        this.shadowRoot.innerHTML =   `
+        this.innerHTML =   `
             <style>
     .slidecontainer {
     width: 100%;
@@ -64,7 +64,7 @@ export class PriceSliderComponent extends HTMLElement {
         // <input id="searchData" type="text" placeholder="Search.." name="search">
         // <i class="fa fa-search"></i>
         // </form>`;
-        this.shadowRoot.querySelector('#sliderData').addEventListener("change",()=>{this.slider()})
+        this.querySelector('#sliderData').addEventListener("change",()=>{this.slider()})
         
 this.slider();
     }
@@ -73,8 +73,8 @@ this.slider();
     }
 
     slider(){
-        console.log("element",this.shadowRoot.getElementById('sliderData').value);
-       let val =parseInt(this.shadowRoot.getElementById('sliderData').value);
+        console.log("element",document.getElementById('sliderData').value);
+       let val =parseInt(document.getElementById('sliderData').value);
         console.log("val",typeof val);
        // if the value is an empty string don't filter the items
        if (val >0) {

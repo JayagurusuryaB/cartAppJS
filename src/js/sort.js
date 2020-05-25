@@ -4,7 +4,7 @@ export class SortComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        this.attachShadow({mode:'open'});
+        //this.attachShadow({mode:'open'});
 
     }
     next(core) {
@@ -17,13 +17,13 @@ export class SortComponent extends HTMLElement {
     }
     connectedCallback() {
 
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
         <button id="priceLow">PriceLow</button>
         <button id="priceHigh">PriceHigh</button>
         <button id="discount">Discount</button>`;
-        this.shadowRoot.querySelector('#priceLow').addEventListener("click",()=>{this.sortList('priceLow')})
-        this.shadowRoot.querySelector('#priceHigh').addEventListener("click",()=>{this.sortList('priceHigh')})
-        this.shadowRoot.querySelector('#discount').addEventListener("click",()=>{this.sortList('discount')})
+        this.querySelector('#priceLow').addEventListener("click",()=>{this.sortList('priceLow')})
+        this.querySelector('#priceHigh').addEventListener("click",()=>{this.sortList('priceHigh')})
+        this.querySelector('#discount').addEventListener("click",()=>{this.sortList('discount')})
 
     }
     disconnectedCallback(){

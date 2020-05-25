@@ -4,7 +4,7 @@ export class ShoppingListComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        this.shadow= this.attachShadow({mode:'open'});
+      //  this.shadow= this.attachShadow({mode:'open'});
         console.log("shopingList", Controller.instance.shoppingList);
     }
     next(core) {
@@ -32,7 +32,7 @@ export class ShoppingListComponent extends HTMLElement {
     createDOM() {
        // document.querySelector('app-shopping-list').remove();
        
-        this.shadow.innerHTML = `<style> 
+        this.innerHTML = `<style> 
         ul li img{
             width:100px !important;
             height:100px !important;
@@ -52,7 +52,7 @@ export class ShoppingListComponent extends HTMLElement {
                 this.append(li, span);
                 this.append(ul, li);
             });
-            this.shadow.appendChild(ul);
+            this.appendChild(ul);
 
     }
 
