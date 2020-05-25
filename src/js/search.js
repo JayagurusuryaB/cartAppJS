@@ -17,6 +17,27 @@ export class SearchComponent extends HTMLElement {
     connectedCallback() {
 
         this.shadowRoot.innerHTML = `
+        <style>
+        :host input{
+            background:transparent;
+            color:#fff;
+            border:0;
+            outline:0;
+            border-bottom:1px solid #fff;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        input:-webkit-autofill:valid,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus
+        {
+            -webkit-transition-delay: 99999s;
+            -webkit-text-fill-color:#fff;
+        }
+        </style>
         <form >
         <input id="searchData" type="text" placeholder="Search.." name="search">
         <i class="fa fa-search"></i>

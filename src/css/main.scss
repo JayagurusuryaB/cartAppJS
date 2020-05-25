@@ -1,13 +1,49 @@
 @import "variables";
 
-body {
-    font-family: 'Verdana', sans-serif;
+@mixin Gutters($padding-ver,$padding-hor){
+    padding: $padding-ver $padding-hor;
+}
+@mixin eleSpace($margin-ver,$margin-hor) {
+    margin: $margin-ver $margin-hor;
+}
+@mixin borderAll($color,$top,$right,$bottom,$left) {
+    border:$color $top $right $bottom $left;
 }
 
-h1{
-    color: $primaryColor;
+*::before,*::after,.clearfix {
+    content: "";
+    clear: both;
+    display: table;
+  }
+body {
+    font-family: 'Verdana', sans-serif;
+    color: $defaultColor;
+    font-size: 14px;
+    line-height: 1;
 }
-//like using component tag we can define style for component level 
-app-shopping-list {
-    color : $primaryColor ;
+.appheader__rtlblock{
+    float: right;
+    color:$primarytxtColor;
+}
+.container{
+    width: 100%;
+    @include Gutters($constVal-0, $constVal-1);
+}
+.row{
+    @include eleSpace( - $constVal-1, $constVal-0);
+}
+.col-left{
+    max-width: 25%;
+    float: $pullLeft;
+}
+.col-right{
+    float: $pullLeft;
+}
+.border-rtl-hor{
+    @include borderAll($darkGreyColor, 0, 1px, 0, 0 );
+}
+
+/*Overiding shadow css*/
+.appheader{
+    @include Gutters($constVal-1 / 2, $constVal-1);
 }

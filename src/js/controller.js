@@ -1,3 +1,4 @@
+
 let _instance = null;
 export default class Controller {
     static get instance() {
@@ -56,5 +57,4 @@ export default class Controller {
         this._core.subscribers.includes(component) &&
             this._core.subscribers.splice(this._core.subscribers.indexOf(component), 1);
     }
-
 }
