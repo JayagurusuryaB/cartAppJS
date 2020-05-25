@@ -4,7 +4,7 @@ export class SearchComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-        this.attachShadow({mode:'open'});
+      //  this.attachShadow({mode:'open'});
     }
     next(core) {
     }
@@ -16,7 +16,7 @@ export class SearchComponent extends HTMLElement {
     }
     connectedCallback() {
 
-        this.shadowRoot.innerHTML = `
+        this.innerHTML = `
         <style>
         :host input{
             background:transparent;
@@ -42,7 +42,7 @@ export class SearchComponent extends HTMLElement {
         <input id="searchData" type="text" placeholder="Search.." name="search">
         <i class="fa fa-search"></i>
         </form>`;
-        this.shadowRoot.querySelector('#searchData').addEventListener("keyup",()=>{this.searchData()})
+        document.querySelector('#searchData').addEventListener("keyup",()=>{this.searchData()})
 
     }
     disconnectedCallback(){
@@ -50,8 +50,8 @@ export class SearchComponent extends HTMLElement {
     }
 
     searchData(){
-       console.log("searchdata",this.shadowRoot.getElementById('searchData').value);
-       let val =this.shadowRoot.getElementById('searchData').value;
+       console.log("searchdata",document.getElementById('searchData').value);
+       let val =document.getElementById('searchData').value;
 
        // if the value is an empty string don't filter the items
        if (val && val.trim() != '') {
