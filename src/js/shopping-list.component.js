@@ -33,33 +33,69 @@ export class ShoppingListComponent extends HTMLElement {
        // document.querySelector('app-shopping-list').remove();
        
         this.innerHTML = `<style> 
-        ul li img{
-            width:100px !important;
-            height:100px !important;
-        }
-    </style>`;
+                .shoppingList{
+                    list-style:none;
+                    width:100%;
+                    padding:0;
+                    margin:0;
+                }
+                .shoppingList li{
+                    float:left;
+                    width: calc( 100% / 5 );
+                    padding: 0 10px 20px;
+                }
+                ul li img{
+                    width:100%;
+                    height:auto;
+                }
+                .price-block__discount{
+                    color:#707070;
+                    font-size:12px;
+                    display:inline-block;
+                }
+                .price-block__discountpercent{
+                    font-size:12px;
+                    color:#14A214;
+                    margin-bottom:10px;
+                }
+                </style>`;
             this.shoppingList = Controller.instance.shoppingList;
             var ul = this.createNode('ul');
-            ul.setAttribute("id", "shoppingList");
-            this.shoppingList.forEach((item, i) => {
-                // console.log("i", i);
-                let li = this.createNode('li'),
-                    img = this.createNode('img'),
-                    span = this.createNode('span');
-                img.src = item.img_url;
-                span.innerHTML = `${item.name}`;
-                this.append(li, img);
-                this.append(li, span);
-                this.append(ul, li);
-            });
+             ul.setAttribute("class", "shoppingList clearfix");
+            // this.shoppingList.forEach((item, i) => {
+            //     // console.log("i", i);
+            //     let li = this.createNode('li'),
+            //         img = this.createNode('img'),
+            //         span = this.createNode('span');
+            //     img.src = item.img_url;
+            //     span.innerHTML = `${item.name}`;
+            //     this.append(li, img);
+            //     this.append(li, span);
+            //     this.append(ul, li);
+            // });
             this.appendChild(ul);
+
+            let shoppingListcontainer =
+            this.shoppingList.map(function(item) {   // <-- map instead of forEach
+                   return `
+                    <li>
+                        <img src="${item.img_url}" alt="img_item"/>
+                        <p>${item.name}</p>
+                        <div class="price-block">
+                            <div class="price-box pull-left">&#x20b9;${item.price} <del class="price-block__discount">${item.discount}</del></div>
+                            <div class="price-block__discountpercent pull-right">${(item.discount/item.price * 100).toFixed(2)}% off</div>
+                            <div class="text-center clearfix">
+                                <button class="btn btn--bgwarning">Add to Cart</button>
+                            </div>
+                        </div>
+                    </li>
+            `});
+            this.querySelector('.shoppingList').innerHTML = shoppingListcontainer.join('\n');
 
     }
 
 
     loadData() {
-
-        
 
         fetch("src/json/list.json")
             .then((resp) => resp.json())

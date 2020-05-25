@@ -19,6 +19,8 @@ export class PriceSliderComponent extends HTMLElement {
             <style>
     .slidecontainer {
     width: 100%;
+    padding: 0 10px;
+    margin-top: 20px;
     }
 
     .slider {

@@ -9,9 +9,15 @@
 </head>
 <body>
     <app-header></app-header>
-    <app-sort></app-sort>
-    <app-price-slider></app-price-slider>
-    <app-shopping-list></app-shopping-list>
+    <div class="container">
+        <div class="row">
+            <div class="col-left"><app-price-slider></app-price-slider></div> 
+            <div class="col-right">
+                <app-sort></app-sort>
+                <app-shopping-list></app-shopping-list>
+            </div> 
+        </div>
+    </div>
     <script src="dist/bundle.js"></script>
 </body>
 </html>
