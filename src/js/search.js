@@ -18,7 +18,7 @@ export class SearchComponent extends HTMLElement {
 
         this.innerHTML = `
         <style>
-        :host input{
+        input{
             background:transparent;
             color:#fff;
             border:0;
@@ -40,7 +40,7 @@ export class SearchComponent extends HTMLElement {
         </style>
         <form >
         <input id="searchData" type="text" placeholder="Search.." name="search">
-        <i class="fa fa-search"></i>
+        <i class="fa fa-search fa-2x"></i>
         </form>`;
         document.querySelector('#searchData').addEventListener("keyup",()=>{this.searchData()})
 
