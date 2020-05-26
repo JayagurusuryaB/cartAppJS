@@ -25,6 +25,11 @@ export default class Controller {
         this._originalShoppingList = data;
     }
 
+    defaultsort(data){
+        var sortedList = data.sort((a,b) => (a.price < b.price) ? 1 : ((b.price < a.price) ? -1 : 0));
+        Controller.instance.editShoppingList(sortedList);
+    }
+
     editShoppingList(data) {
         this._shoppingList = data;
 

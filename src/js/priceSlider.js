@@ -1,5 +1,4 @@
 import Controller from './controller';
-
 export class PriceSliderComponent extends HTMLElement {
     constructor() {
         super();
@@ -17,6 +16,7 @@ export class PriceSliderComponent extends HTMLElement {
     connectedCallback() {
         this.innerHTML =   `
             <style>
+            @import url('./plugins/css/wrunner-default-theme.css');
     .slidecontainer {
     width: 100%;
     padding: 0 10px;
@@ -58,7 +58,6 @@ export class PriceSliderComponent extends HTMLElement {
   <input type="range" min="1" max="1000" value="1000" class="slider" id="sliderData">
  
 </div>
-
 `;
 
         // this.shadowRoot.innerHTML = `
@@ -67,8 +66,11 @@ export class PriceSliderComponent extends HTMLElement {
         // <i class="fa fa-search"></i>
         // </form>`;
         this.querySelector('#sliderData').addEventListener("change",()=>{this.slider()})
-        
-this.slider();
+        this.slider();
+        this.loadData();
+        var div = this.createNode('div');
+        div.setAttribute("class", "my-js-slider");
+        this.querySelector('.slidecontainer').appendChild(div);
     }
     disconnectedCallback(){
         this.unsubscribe();
@@ -91,7 +93,24 @@ this.slider();
             Controller.instance.editShoppingList(Controller.instance.originalShoppingList);
         }
     }
+    loadData() {
+       
+                // var setting = {
+                //     roots: document.querySelector('.my-js-slider'),
+                //     type: 'range',
+                //     step: 1,
+                //     }
+                // var slider = wRunner(setting);
+        fetch("src/js/plugins/js/wrunner-native.js")
+            .then((data) => {
+                
+            })
 
+            .catch(error => {
+                console.log("error", error);
+                // If there is any error you will catch them here
+            });
+    }
 
 }
 

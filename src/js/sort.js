@@ -46,14 +46,14 @@ export class SortComponent extends HTMLElement {
         this.querySelector('#priceLow').addEventListener("click",()=>{this.sortList('priceLow',event)})
         this.querySelector('#priceHigh').addEventListener("click",()=>{this.sortList('priceHigh',event)})
         this.querySelector('#discount').addEventListener("click",()=>{this.sortList('discount',event)})
-
     }
     disconnectedCallback(){
         this.unsubscribe();
     }
-
+    
     sortList(tag,event){
         var shopList = Controller.instance.shoppingList;
+        console.log('onclick', Controller.instance.shoppingList);
        if(tag == 'priceLow'){
         shopList.sort((a,b) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0));
         Controller.instance.editShoppingList(shopList);

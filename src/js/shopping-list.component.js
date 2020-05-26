@@ -102,7 +102,7 @@ export class ShoppingListComponent extends HTMLElement {
             .then((data) => {
                 // Here you get the data to modify as you please
                 Controller.instance.setOriginalShoppingList(data);
-                Controller.instance.editShoppingList(data);
+                Controller.instance.defaultsort(data);
             })
 
             .catch(error => {
