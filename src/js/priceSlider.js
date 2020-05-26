@@ -3,7 +3,7 @@ export class PriceSliderComponent extends HTMLElement {
     constructor() {
         super();
         this.subscribe();
-      //  this.attachShadow({mode:'open'});
+        //  this.attachShadow({mode:'open'});
     }
     next(core) {
     }
@@ -13,105 +13,102 @@ export class PriceSliderComponent extends HTMLElement {
     unsubscribe() {
         Controller.instance.unsubscribe(this);
     }
+    createNode(element) {
+        return document.createElement(element); // Create the type of element you pass in the parameters
+    }
     connectedCallback() {
-        this.innerHTML =   `
+        this.innerHTML = `
             <style>
-            @import url('./plugins/css/wrunner-default-theme.css');
-    .slidecontainer {
-    width: 100%;
-    padding: 0 10px;
-    margin-top: 20px;
+    
+    section.range-slider {
+        position: relative;
+        width: 200px;
+        height: 35px;
+        text-align: center;
     }
-
-    .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+    
+    section.range-slider input {
+        pointer-events: none;
+        position: absolute;
+        overflow: hidden;
+        left: 0;
+        top: 15px;
+        width: 200px;
+        outline: none;
+        height: 18px;
+        margin: 0;
+        padding: 0;
     }
-
-    .slider:hover {
-    opacity: 1;
+    
+    section.range-slider input::-webkit-slider-thumb {
+        pointer-events: all;
+        position: relative;
+        z-index: 1;
+        outline: 0;
     }
-
-    .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
+    
+    section.range-slider input::-moz-range-thumb {
+        pointer-events: all;
+        position: relative;
+        z-index: 10;
+        -moz-appearance: none;
+        width: 9px;
     }
-
-    .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
+    
+    section.range-slider input::-moz-range-track {
+        position: relative;
+        z-index: -1;
+        background-color: rgba(0, 0, 0, 1);
+        border: 0;
+    }
+    section.range-slider input:last-of-type::-moz-range-track {
+        -moz-appearance: none;
+        background: none transparent;
+        border: 0;
+    }
+      section.range-slider input[type=range]::-moz-focus-outer {
+      border: 0;
     }
     </style>
-<div class="slidecontainer">
-  <input type="range" min="1" max="1000" value="1000" class="slider" id="sliderData">
- 
-</div>
+
+<section class="range-slider">
+  <span class="rangeValues"></span>
+  <input value="0" min="0" max="1000" step="20" type="range" id="leftslider">
+  <input value="1000" min="0" max="1000" step="20" type="range" id="rightslider">
+</section>
 `;
 
-        // this.shadowRoot.innerHTML = `
-        // <form >
-        // <input id="searchData" type="text" placeholder="Search.." name="search">
-        // <i class="fa fa-search"></i>
-        // </form>`;
-        this.querySelector('#sliderData').addEventListener("change",()=>{this.slider()})
-        this.slider();
-        this.loadData();
-        var div = this.createNode('div');
-        div.setAttribute("class", "my-js-slider");
-        this.querySelector('.slidecontainer').appendChild(div);
+      
+        this.querySelector('#leftslider').addEventListener("change",()=>{this.updateData()});
+        this.querySelector('#rightslider').addEventListener("change",()=>{this.updateData()});
+this.updateData();
+      
     }
-    disconnectedCallback(){
+    disconnectedCallback() {
         this.unsubscribe();
     }
 
-    slider(){
-        console.log("element",document.getElementById('sliderData').value);
-       let val =parseInt(document.getElementById('sliderData').value);
-        console.log("val",typeof val);
-       // if the value is an empty string don't filter the items
-       if (val >0) {
-           this.shoppingListItems = Controller.instance.originalShoppingList;
-           this.shoppingListItems = this.shoppingListItems.filter((item) => {
-                console.log("item price type",item.price ,val,(item.price <=val));
-               return (item.price <= val);
-           })
-           Controller.instance.editShoppingList(this.shoppingListItems);
-        }
-        else{
-            Controller.instance.editShoppingList(Controller.instance.originalShoppingList);
-        }
-    }
-    loadData() {
+    updateData() {
+        // Get slider values
+        var slide1 =parseFloat(document.getElementById("leftslider").value) ;
+        var slide2 = parseFloat(document.getElementById("rightslider").value);
        
-                // var setting = {
-                //     roots: document.querySelector('.my-js-slider'),
-                //     type: 'range',
-                //     step: 1,
-                //     }
-                // var slider = wRunner(setting);
-        fetch("src/js/plugins/js/wrunner-native.js")
-            .then((data) => {
-                
-            })
+        // Neither slider will clip the other, so make sure we determine which is larger
+         if (slide1 > slide2) { var tmp = slide2; slide2 = slide1; slide1 = tmp; }
 
-            .catch(error => {
-                console.log("error", error);
-                // If there is any error you will catch them here
-            });
+        var displayElement = document.getElementsByClassName("rangeValues")[0];
+        displayElement.innerHTML = slide1 + " - " + slide2;
+        this.slider(slide1,slide2);
     }
-
+    slider(min,max) {
+  
+            this.shoppingListItems = Controller.instance.originalShoppingList;
+            this.shoppingListItems = this.shoppingListItems.filter((item) => {
+                return (item.price >=parseInt(min) && item.price <=parseInt(max) );
+            })
+            Controller.instance.editShoppingList(this.shoppingListItems);
+           }
+  
 }
 
 window.customElements.define('app-price-slider', PriceSliderComponent);
