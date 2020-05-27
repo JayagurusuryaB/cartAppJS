@@ -80,14 +80,17 @@ export class PriceSliderComponent extends HTMLElement {
         <span class="rangeValues"></span>
         <div class="rangeSlider__container"><input value="0" min="0" max="1000" step="20" type="range" id="leftslider">
         <input value="1000" min="0" max="1000" step="20" type="range" id="rightslider"></div>
+        <button style="margin:15px 15px;"id="applybutton">Apply </button>
         </section>
         `;
 
-      
-        this.querySelector('#leftslider').addEventListener("change",()=>{this.updateData()});
-        this.querySelector('#rightslider').addEventListener("change",()=>{this.updateData()});
-this.updateData();
-      
+
+        this.querySelector('#leftslider').addEventListener("change", () => { this.updateData() });
+        this.querySelector('#rightslider').addEventListener("change", () => { this.updateData() });
+        this.querySelector('#applybutton').addEventListener("click", () => { this.applySliderValues() });
+
+        this.updateData();
+
     }
     disconnectedCallback() {
         this.unsubscribe();
@@ -95,25 +98,28 @@ this.updateData();
 
     updateData() {
         // Get slider values
-        var slide1 =parseFloat(document.getElementById("leftslider").value) ;
+        var slide1 = parseFloat(document.getElementById("leftslider").value);
         var slide2 = parseFloat(document.getElementById("rightslider").value);
-       
+
         // Neither slider will clip the other, so make sure we determine which is larger
-         if (slide1 > slide2) { var tmp = slide2; slide2 = slide1; slide1 = tmp; }
+        if (slide1 > slide2) { var tmp = slide2; slide2 = slide1; slide1 = tmp; }
 
         var displayElement = document.getElementsByClassName("rangeValues")[0];
         displayElement.innerHTML = "&#x20b9;" + slide1 + " - " + "&#x20b9;" + slide2;
-        this.slider(slide1,slide2);
+        // this.slider(slide1,slide2);
     }
-    slider(min,max) {
-  
-            this.shoppingListItems = Controller.instance.originalShoppingList;
-            this.shoppingListItems = this.shoppingListItems.filter((item) => {
-                return (item.price >=parseInt(min) && item.price <=parseInt(max) );
-            })
-            Controller.instance.editShoppingList(this.shoppingListItems);
-           }
-  
+    applySliderValues() {
+        var min = parseFloat(document.getElementById("leftslider").value);
+        var max = parseFloat(document.getElementById("rightslider").value);
+
+        if (min > max) { var tmp = max; max = min; min = tmp; }
+        this.shoppingListItems = Controller.instance.originalShoppingList;
+        this.shoppingListItems = this.shoppingListItems.filter((item) => {
+            return (item.price >= parseInt(min) && item.price <= parseInt(max));
+        })
+        Controller.instance.editShoppingList(this.shoppingListItems);
+    }
+
 }
 
 window.customElements.define('app-price-slider', PriceSliderComponent);
