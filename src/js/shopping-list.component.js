@@ -77,13 +77,14 @@ export class ShoppingListComponent extends HTMLElement {
 
             let shoppingListcontainer =
             this.shoppingList.map(function(item) {   // <-- map instead of forEach
+                item.discountPrice =  (item.price*item.discount)/100;
                    return `
                     <li>
                         <img src="${item.img_url}" alt="img_item"/>
                         <p>${item.name}</p>
                         <div class="price-block">
-                            <div class="price-box pull-left">&#x20b9;${item.price-item.discount} <del class="price-block__discount">${item.price+item.discount}</del></div>
-                            <div class="price-block__discountpercent pull-right">${(item.discount/item.price * 100).toFixed(2)}% off</div>
+                            <div class="price-box pull-left">&#x20b9;${item.price-item.discountPrice} <del class="price-block__discount">${item.price}</del></div>
+                            <div class="price-block__discountpercent pull-right">${item.discount}% off</div>
                             <div class="text-center clearfix">
                                 <button class="btn btn--bgwarning">Add to Cart</button>
                             </div>
