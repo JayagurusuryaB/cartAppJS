@@ -1,7 +1,7 @@
 @import "variables";
 
-@mixin Gutters($padding-ver,$padding-hor){
-    padding: $padding-ver $padding-hor;
+@mixin Gutters($padding-hor,$padding-ver){
+    padding:$padding-hor $padding-ver;
 }
 @mixin eleSpace($margin-hor,$margin-ver) {
     margin: $margin-hor $margin-ver;
@@ -34,6 +34,7 @@ body {
     color: $defaultColor;
     font-size: 14px;
     line-height: 1;
+    margin:0;
 }
 .appheader__rtlblock{
     float: right;
@@ -49,6 +50,7 @@ body {
 .col-left{
     width: 25%;
     float: $pullLeft;
+    @include Gutters(0, 15px);
 }
 .col-right{
     float: $pullLeft;
@@ -71,9 +73,19 @@ body {
     background: $primaryColor;
     color: $primarytxtColor;
 }
+.btn:hover,
+.btn:focus{
+    cursor: pointer;
+}
 .btn--bgwarning{
     background:$defaultLogoColor;
     color:$defaultColor;
+}
+.hor-gutter{
+    @include Gutters(15px,0);
+}
+.txt-white{
+    color:#ffffff;
 }
 /*Overiding shadow css*/
 .appheader{

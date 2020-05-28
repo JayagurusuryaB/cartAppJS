@@ -20,20 +20,22 @@ export class HeaderComponent extends HTMLElement {
          `
          <style>
             .appheader{
-                background: #4269EA;
-                color: #F7CE23;
+                background: #4269EA;  
             }
             .appheader__rtlblock{
                 float: right;
                 color:#ffffff;
             }
+            .appheader__logo{
+                color: #F7CE23;
+            }
         </style>
          <header class="appheader">
-            <i class="fa fa-star fa-2x appheader__logo" aria-hidden="true"></i>
+           <a class="appheader__logo" href="/"> <i class="fa fa-star fa-2x " aria-hidden="true"></i></a>
             <div class="appheader__rtlblock">
             <i id="app__headerfasearch" class="fa fa-search fa-2x" aria-hidden="true"></i>
             <app-search id="appheader__search" hidden></app-search>
-            <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+            <a class="txt-white" href="../../cart.html"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
             </div>
         </header>`;
         document.querySelector('#app__headerfasearch').addEventListener("click",()=>{

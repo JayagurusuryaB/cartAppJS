@@ -80,7 +80,7 @@ export class PriceSliderComponent extends HTMLElement {
         <span class="rangeValues"></span>
         <div class="rangeSlider__container"><input value="0" min="0" max="1000" step="20" type="range" id="leftslider">
         <input value="1000" min="0" max="1000" step="20" type="range" id="rightslider"></div>
-        <button style="margin:15px 15px;"id="applybutton">Apply </button>
+        <div class="text-center hor-gutter"><button class="btn" id="applybutton">Apply </button></div>
         </section>
         `;
 
