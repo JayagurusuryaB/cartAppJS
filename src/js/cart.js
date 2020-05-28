@@ -1,5 +1,5 @@
 import Controller from './controller';
-export class ShoppingListComponent extends HTMLElement {
+export class CartComponent extends HTMLElement {
 
     constructor() {
         super();
@@ -8,7 +8,7 @@ export class ShoppingListComponent extends HTMLElement {
         console.log("shopingList", Controller.instance.shoppingList);
     }
     next(core) {
-        this.createDOM();
+       
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -23,7 +23,7 @@ export class ShoppingListComponent extends HTMLElement {
         return parent.appendChild(el);
     }
     connectedCallback() {
-        this.loadData();
+        this.createDOM();
     }
 
     disconnectedCallback() {
@@ -31,7 +31,7 @@ export class ShoppingListComponent extends HTMLElement {
     }
     createDOM() {
         // document.querySelector('app-shopping-list').remove();
-
+        this.cartList = JSON.parse(localStorage.getItem("cartItems"));
         this.innerHTML = `<style> 
                 .shoppingList{
                     list-style:none;
@@ -59,24 +59,14 @@ export class ShoppingListComponent extends HTMLElement {
                     margin-bottom:10px;
                 }
                 </style>`;
-        this.shoppingList = Controller.instance.shoppingList;
+      
         var ul = this.createNode('ul');
         ul.setAttribute("class", "shoppingList clearfix");
-        // this.shoppingList.forEach((item, i) => {
-        //     // console.log("i", i);
-        //     let li = this.createNode('li'),
-        //         img = this.createNode('img'),
-        //         span = this.createNode('span');
-        //     img.src = item.img_url;
-        //     span.innerHTML = `${item.name}`;
-        //     this.append(li, img);
-        //     this.append(li, span);
-        //     this.append(ul, li);
-        // });
+       
         this.appendChild(ul);
-
-        let shoppingListcontainer =
-            this.shoppingList.map((item) => {   // <-- map instead of forEach
+        if(this.cartList){
+        let cartListcontainer =
+            this.cartList.map((item) => {   // <-- map instead of forEach
                 item.discountPrice = (item.price * item.discount) / 100;
 
                 return `
@@ -92,53 +82,13 @@ export class ShoppingListComponent extends HTMLElement {
                         </div>
                     </li>
             `});
-        this.querySelector('.shoppingList').innerHTML = shoppingListcontainer.join('\n');
-
-        var elems = document.getElementsByClassName('add-to-cart');
-
-        if (elems.length) {
-            for (var i = 0, l = elems.length; i < l; i++) {
-                var item = this.shoppingList[i];
-                (function (i, item) {
-
-                    elems[i].onclick = function () {
-                        console.log("item", item);
-                        let existingItems = localStorage.getItem("cartItems");
-                        existingItems = existingItems ? JSON.parse(existingItems) : [];
-                        existingItems.push(item);
-                        console.log("exitsting", existingItems);
-                        localStorage.setItem("cartItems", JSON.stringify(existingItems));
-
-                        alert('Item Added to Cart');
-                    }
-                })(i, item);
-            }
-        }
+        this.querySelector('.shoppingList').innerHTML = cartListcontainer.join('\n');
 
     }
 
- 
-
-    loadData() {
-
-        fetch("src/json/list.json")
-            .then((resp) => resp.json())
-            .then((data) => {
-                // Here you get the data to modify as you please
-                Controller.instance.setOriginalShoppingList(data);
-                Controller.instance.defaultsort(data);
-            })
-
-            .catch(error => {
-                console.log("error", error);
-                // If there is any error you will catch them here
-            });
     }
-    createList() {
-        this.shoppingList.forEach(element => {
-            console.log("element", element);
-        });
-    }
+
+   
 }
 
-window.customElements.define('app-shopping-list', ShoppingListComponent);
+window.customElements.define('app-cart', CartComponent);

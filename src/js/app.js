@@ -6,3 +6,4 @@ import{ ShoppingListComponent } from './shopping-list.component';
 import {SortComponent} from './sort';
 import {SearchComponent} from './search';
 import {PriceSliderComponent} from './priceSlider';
+import {CartComponent} from './cart';
