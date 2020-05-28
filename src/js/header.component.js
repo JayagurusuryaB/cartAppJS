@@ -35,13 +35,19 @@ export class HeaderComponent extends HTMLElement {
             <div class="appheader__rtlblock">
             <i id="app__headerfasearch" class="fa fa-search fa-2x" aria-hidden="true"></i>
             <app-search id="appheader__search" hidden></app-search>
-            <a class="txt-white" href="../../cart.html"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+            <a id="appheader__cart" class="txt-white" href="../../cart.html"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
             </div>
         </header>`;
         document.querySelector('#app__headerfasearch').addEventListener("click",()=>{
             this.querySelector('#app__headerfasearch').style.display = 'none';
             document.querySelector('#appheader__search').style.display = 'inline-block';
         })
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            if (window.location.href.indexOf("cart.html") != -1) {
+                this.querySelector('#app__headerfasearch').style.display = 'none';
+                 document.querySelector('#appheader__cart').style.display = 'none';
+            }
+          });
     }
     disconnectedCallback(){
         this.unsubscribe();
