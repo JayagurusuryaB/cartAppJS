@@ -103,6 +103,7 @@ export class ShoppingListComponent extends HTMLElement {
 
                     elems[i].onclick = function () {
                         console.log("item", item);
+                        item.count =1;
                         let existingItems = localStorage.getItem("cartItems");
                         existingItems = existingItems ? JSON.parse(existingItems) : [];
                         existingItems.push(item);

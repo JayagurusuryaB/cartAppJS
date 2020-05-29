@@ -5,10 +5,9 @@ export class CartComponent extends HTMLElement {
         super();
         this.subscribe();
         //  this.shadow= this.attachShadow({mode:'open'});
-        console.log("shopingList", Controller.instance.shoppingList);
     }
     next(core) {
-       
+
     }
     subscribe() {
         Controller.instance.subscribe(this);
@@ -23,13 +22,13 @@ export class CartComponent extends HTMLElement {
         return parent.appendChild(el);
     }
     connectedCallback() {
-        this.createDOM();
+        this.createcartDOM();
     }
 
     disconnectedCallback() {
         this.unsubscribe();
     }
-    createDOM() {
+    createcartDOM() {
         // document.querySelector('app-shopping-list').remove();
         this.cartList = JSON.parse(localStorage.getItem("cartItems"));
         this.innerHTML = `<style> 
@@ -62,18 +61,42 @@ export class CartComponent extends HTMLElement {
                     color:#14A214;
                     margin-bottom:10px;
                 }
+                .inputCounter span {
+                    cursor:pointer; 
+                }
+                .minus, .plus{
+                    width: 34px;
+                    height: 34px;
+                    background: #f2f2f2;
+                    border-radius: 50%;
+                    padding:8px 5px 8px 5px;
+                    border:1px solid #ddd;
+                    display: inline-block;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+                input{
+                    height:34px;
+                    width: 50px;
+                    text-align: center;
+                    font-size: 20px;
+                    border:1px solid #ddd;
+                    border-radius:4px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    color:#000;s
                 </style>`;
-      
+
         var div = this.createNode('div');
         div.setAttribute("class", "cartItems clearfix");
-       
-        this.appendChild(div);
-        if(this.cartList){
-        let cartListcontainer =
-            this.cartList.map((item) => {   // <-- map instead of forEach
-                item.discountPrice = (item.price * item.discount) / 100;
 
-                return `
+        this.appendChild(div);
+        if (this.cartList) {
+            let cartListcontainer =
+                this.cartList.map((item) => {   // <-- map instead of forEach
+                    item.discountPrice = (item.price * item.discount) / 100;
+
+                    return `
                     <div class="cartItemBox clearfix">
                         <div class="cartItemBox__items col-4 clearfix">    
                             <img src="${item.img_url}" alt="img_item"/>
@@ -85,17 +108,57 @@ export class CartComponent extends HTMLElement {
                                 </div>
                             </div>
                         </div>
-                        <div class="cartItemBox__countele col-4"><app-inputcounter></app-inputcounter></div>
-                        <div class="btn__remove col-4"><b>REMOVE</b></div>
+                        <div class="cartItemBox__countele col-4">
+                            <div class="inputCounter">
+                                <span class="minus">-</span>
+                                <input class="cart-item-input" type="number" value="${item.count}"/>
+                                <span class="plus">+</span>
+                            </div>
+                        </div>
+                        <div class="btn__remove col-4 remove-from-cart"><b>REMOVE</b></div>
                     </div>
             `});
-        this.querySelector('.cartItems').innerHTML = cartListcontainer.join('\n');
+            this.querySelector('.cartItems').innerHTML = cartListcontainer.join('\n');
+            var elems = document.getElementsByClassName('remove-from-cart');
+
+            if (elems.length) {
+                for (var i = 0, l = elems.length; i < l; i++) {
+                    var item = this.cartList[i];
+                    (function (i, item) {
+                        elems[i].onclick = function () {
+                            let existingItems = localStorage.getItem("cartItems");
+                            existingItems = existingItems ? JSON.parse(existingItems) : [];
+                            if (existingItems) {
+                                existingItems = existingItems.filter((cart) => { return cart.id != item.id });
+                            }
+                            localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                            alert('Item removed from Cart');
+                            location.reload();
+                        }
+                    })(i, item);
+                }
+            }
+
+            var inputItems = document.getElementsByClassName('cart-item-input');
+            if (inputItems.length) {
+                for (var i = 0, l = inputItems.length; i < l; i++) {
+                    (function (i) {
+                       inputItems[i].onchange = function () {
+                        console.log("inputiem value",inputItems[i].value);
+                        let existingItems = localStorage.getItem("cartItems");
+                        existingItems = existingItems ? JSON.parse(existingItems) : [];
+                       existingItems[i].count = parseInt(inputItems[i].value);
+                       console.log("cart items",existingItems);
+                        localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        }
+                    })(i);
+                }
+            }
+        }
 
     }
 
-    }
 
-   
 }
 
 window.customElements.define('app-cart', CartComponent);
