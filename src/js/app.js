@@ -7,3 +7,4 @@ import {SortComponent} from './sort';
 import {SearchComponent} from './search';
 import {PriceSliderComponent} from './priceSlider';
 import {CartComponent} from './cart';
+import { inputCounterComponent } from './inputCounter';

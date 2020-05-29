@@ -33,20 +33,24 @@ export class CartComponent extends HTMLElement {
         // document.querySelector('app-shopping-list').remove();
         this.cartList = JSON.parse(localStorage.getItem("cartItems"));
         this.innerHTML = `<style> 
-                .shoppingList{
-                    list-style:none;
-                    width:100%;
-                    padding:0;
-                    margin:0;
+                .cartItemBox{
+                    border:1px solid #000;
+                    background:#fff;
+                    padding:15px;
+                    margin-bottom:10px;
                 }
-                .shoppingList li{
-                    float:left;
-                    width: calc( 100% / 5 );
-                    padding: 0 10px 20px;
-                }
-                ul li img{
+                .cartItemBox__items img{
                     width:100%;
+                    max-width:100px;
+                    margin-right:15px;
                     height:auto;
+                    float:left;
+                }
+                .cartItemBox__countele,
+                .btn__remove{
+                    position: relative;
+                    top: 2.5rem;
+                    text-align: center;
                 }
                 .price-block__discount{
                     color:#707070;
@@ -60,29 +64,32 @@ export class CartComponent extends HTMLElement {
                 }
                 </style>`;
       
-        var ul = this.createNode('ul');
-        ul.setAttribute("class", "shoppingList clearfix");
+        var div = this.createNode('div');
+        div.setAttribute("class", "cartItems clearfix");
        
-        this.appendChild(ul);
+        this.appendChild(div);
         if(this.cartList){
         let cartListcontainer =
             this.cartList.map((item) => {   // <-- map instead of forEach
                 item.discountPrice = (item.price * item.discount) / 100;
 
                 return `
-                    <li>
-                        <img src="${item.img_url}" alt="img_item"/>
-                        <p>${item.name}</p>
-                        <div class="price-block">
-                            <div class="price-box pull-left">&#x20b9;${item.price - item.discountPrice} <del class="price-block__discount">${item.price}</del></div>
-                            <div class="price-block__discountpercent pull-right">${item.discount}% off</div>
-                            <div class="text-center clearfix">
-                                <button class="btn btn--bgwarning add-to-cart" >Add to Cart</button>
-                            </div> 
+                    <div class="cartItemBox clearfix">
+                        <div class="cartItemBox__items col-4 clearfix">    
+                            <img src="${item.img_url}" alt="img_item"/>
+                            <div class="">
+                                <p>${item.name}</p>
+                                <div class="price-block">
+                                    <div class="price-box pull-left">&#x20b9;${item.price - item.discountPrice} <del class="price-block__discount">${item.price}</del></div>
+                                    <div class="price-block__discountpercent pull-right">${item.discount}% off</div>
+                                </div>
+                            </div>
                         </div>
-                    </li>
+                        <div class="cartItemBox__countele col-4"><app-inputcounter></app-inputcounter></div>
+                        <div class="btn__remove col-4"><b>REMOVE</b></div>
+                    </div>
             `});
-        this.querySelector('.shoppingList').innerHTML = cartListcontainer.join('\n');
+        this.querySelector('.cartItems').innerHTML = cartListcontainer.join('\n');
 
     }
 
