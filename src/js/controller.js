@@ -35,13 +35,17 @@ export default class Controller {
 
         this._core.subscribers && this.emit();
     }
-    //   editShoppingList(prop, value) {
-    //     this._shoppingList[prop] = value;
-    //   }
-    //   foo(prop, value) {
-    //     let todo = 1 + value; //some logic here
-    //     this.editShoppingList(prop, todo);
-    //   }
+    
+
+    cartUpdate(){
+        console.log("jpeenr");
+        this._core.subscribers.forEach(component => {
+            console.log("component",typeof component.createCartList);
+
+            typeof component.createCartList === 'function' &&
+                component.next();
+        });
+    }
     emit() {
         this._core.subscribers.forEach(subscriber =>
             subscriber.next(this._core)
@@ -49,6 +53,8 @@ export default class Controller {
     }
     emit() {
         this._core.subscribers.forEach(component => {
+            console.log("component",typeof component.createCartList);
+
             typeof component.next === 'function' &&
                 component.next(this._core);
         });

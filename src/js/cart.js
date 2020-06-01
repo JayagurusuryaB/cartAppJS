@@ -148,8 +148,11 @@ export class CartComponent extends HTMLElement {
                         let existingItems = localStorage.getItem("cartItems");
                         existingItems = existingItems ? JSON.parse(existingItems) : [];
                        existingItems[i].count = parseInt(inputItems[i].value);
+
                        console.log("cart items",existingItems);
                         localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        Controller.instance.cartUpdate();
+
                         }
                     })(i);
                 }
@@ -169,6 +172,8 @@ export class CartComponent extends HTMLElement {
 
                        console.log("cart items",existingItems);
                         localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        Controller.instance.cartUpdate();
+
                         }
                     })(i);
                 }
@@ -184,8 +189,11 @@ export class CartComponent extends HTMLElement {
                             existingItems = existingItems ? JSON.parse(existingItems) : [];
                            existingItems[i].count =  existingItems[i].count+1 <= 100 ? existingItems[i].count+1 : 100;
                            document.getElementById("cart-item-count-"+i).value =  existingItems[i].count;
+
                        console.log("cart items",existingItems);
                         localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        Controller.instance.cartUpdate();
+
                         }
                     })(i);
                 }
