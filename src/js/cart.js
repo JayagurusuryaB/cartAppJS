@@ -93,7 +93,7 @@ export class CartComponent extends HTMLElement {
         this.appendChild(div);
         if (this.cartList) {
             let cartListcontainer =
-                this.cartList.map((item) => {   // <-- map instead of forEach
+                this.cartList.map((item,i) => {   // <-- map instead of forEach
                     item.discountPrice = (item.price * item.discount) / 100;
 
                     return `
@@ -110,9 +110,9 @@ export class CartComponent extends HTMLElement {
                         </div>
                         <div class="cartItemBox__countele col-4">
                             <div class="inputCounter">
-                                <span class="minus">-</span>
-                                <input class="cart-item-input" type="number" value="${item.count}"/>
-                                <span class="plus">+</span>
+                                <span class="minus cart-item-count-minus" >-</span>
+                                <input class="cart-item-input" id="cart-item-count-${i}" type="number" min="0" max="100" value="${item.count}"/>
+                                <span class="plus cart-item-count-plus">+</span>
                             </div>
                         </div>
                         <div class="btn__remove col-4 remove-from-cart"><b>REMOVE</b></div>
@@ -148,6 +148,42 @@ export class CartComponent extends HTMLElement {
                         let existingItems = localStorage.getItem("cartItems");
                         existingItems = existingItems ? JSON.parse(existingItems) : [];
                        existingItems[i].count = parseInt(inputItems[i].value);
+                       console.log("cart items",existingItems);
+                        localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        }
+                    })(i);
+                }
+            }
+            var cartItems= this.cartList;
+
+            var minusItems = document.getElementsByClassName('cart-item-count-minus');
+            if (minusItems.length) {
+                for (var i = 0, l = minusItems.length; i < l; i++) {
+                    (function (i) {
+                        minusItems[i].onclick = function () {
+                        console.log("inputiem value",  document.getElementById("cart-item-count-"+i).value );
+                        let existingItems = localStorage.getItem("cartItems");
+                        existingItems = existingItems ? JSON.parse(existingItems) : [];
+                       existingItems[i].count =  existingItems[i].count-1>0 ?  existingItems[i].count-1:0;
+                       document.getElementById("cart-item-count-"+i).value =  existingItems[i].count;
+
+                       console.log("cart items",existingItems);
+                        localStorage.setItem("cartItems", JSON.stringify(existingItems));
+                        }
+                    })(i);
+                }
+            }
+
+            var plusItems = document.getElementsByClassName('cart-item-count-plus');
+            if (plusItems.length) {
+                for (var i = 0, l = plusItems.length; i < l; i++) {
+                    (function (i) {
+                        plusItems[i].onclick = function () {
+                            console.log("inputiem value",document.getElementById("cart-item-count-"+i).value);
+                            let existingItems = localStorage.getItem("cartItems");
+                            existingItems = existingItems ? JSON.parse(existingItems) : [];
+                           existingItems[i].count =  existingItems[i].count+1 <= 100 ? existingItems[i].count+1 : 100;
+                           document.getElementById("cart-item-count-"+i).value =  existingItems[i].count;
                        console.log("cart items",existingItems);
                         localStorage.setItem("cartItems", JSON.stringify(existingItems));
                         }
